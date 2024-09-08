@@ -62,23 +62,24 @@ def measureMemory(func, data):
     return current, peak
 
 # Function to run and compare Quick Sort and Merge Sort on various datasets
-def compareAlgorithms(n):
+def compareAlgorithms(n, file):
     sortedData, reverseSortedData, randomData = generateDatasets(n)
     
-    datasets = [("SORTED DATA", sortedData), ("REVERSE SORTED DATA", reverseSortedData), ("RANDOM DATA", randomData)]
-    algorithms = [("QUICK SORT", quickSort), ("MERGE SORT", mergeSort)]
+    datasets = [("SORTED DATA\n", sortedData), ("REVERSE SORTED DATA\n", reverseSortedData), ("RANDOM DATA\n", randomData)]
+    algorithms = [("QUICK SORT", quickSort), ("\nMERGE SORT", mergeSort)]
     
-    print(f"\n--- PERFORMANCE COMPARISON FOR N = {n} ---")
+    file.write(f"\n\n--- PERFORMANCE COMPARISON FOR N = {n} ---")
     
     for name, data in datasets:
-        print(f"\nDATASET TYPE :: {name}")
+        file.write(f"\n\nDATASET TYPE :: {name}")
         for algo_name, algo in algorithms:
             time_taken = measureTime(algo, data)
             current_mem, peak_mem = measureMemory(algo, data)
-            print(f"{algo_name} | EXECUTION TIME :: {time_taken:.6f} SECONDS | MEMORY USAGES :: {peak_mem / 1024:.2f} KB")
+            file.write(f"{algo_name} | EXECUTION TIME :: {time_taken:.6f} SECONDS | MEMORY USAGES :: {peak_mem / 1024:.2f} KB")
 
 # Run the comparison for different dataset sizes
 if __name__ == "__main__":
-    compareAlgorithms(1000) 
-    compareAlgorithms(5000) 
-    compareAlgorithms(10000)
+    with open('output.txt', 'w') as file:
+        compareAlgorithms(1000, file) 
+        compareAlgorithms(5000, file) 
+        compareAlgorithms(10000, file)
